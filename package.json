@@ -1,0 +1,16 @@
+{
+	"repository" : { 
+		"type" : "git", 
+		"url" : "http://github.com/btidwell/pencilblue_facebook.git"
+	  },
+    "dependencies": {
+      "fb": "0.7.0"
+    },
+    "devDependencies": {
+        "chai": "^1.10.0",
+        "mocha": "^2.1.0",
+        "sinon": "^1.12.2",
+		"istanbul": "^0.3.7",
+		"mocha-istanbul": "^0.2.0"
+    }
+}
