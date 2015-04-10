@@ -1,0 +1,59 @@
+{
+  "uid": "pencilblue_facebook",
+  "name": "Facebook Plugin",
+  "description": "Facebook feed plugin for Pencilblue",
+  "pb_version": "0.4.x",
+  "version": "0.1.0",
+  "author": {
+    "name": "CareerBuilder CMS Team",
+    "email": "talentengagementcloud@careerbuilder.com",
+    "website": "http://careerbuilder.com",
+    "contributors": [
+      {
+        "name": "Christina Chatham",
+        "email": "christina.chatham@careerbuilder.com"
+      },
+      {
+        "name": "Ben Tidwell",
+        "email": "ben.tidwell@careerbuilder.com"
+      },
+      {
+        "name": "Corrine Olson",
+        "email": "corrine.olson@careerbuilder.com"
+      },
+      {
+        "name": "Evan Adams",
+        "email": "Evan.Adams@careerbuilder.com"
+      }
+    ]
+  },
+  "settings": [
+    {
+      "name": "app_id",
+      "value": ""
+    },
+    {
+      "name": "app_secret",
+      "value": ""
+    },
+    {
+      "name": "facebook_page_id",
+      "value": ""
+    }
+  ],
+  "permissions": {
+    "ACCESS_USER": [],
+    "ACCESS_WRITER": [],
+    "ACCESS_EDITOR": [],
+    "ACCESS_MANAGING_EDITOR": []
+  },
+  "main_module": {
+    "path": "facebook.js"
+  },
+  "dependencies": {
+    "fb": "0.7.0"
+  },
+  "theme": {
+    "settings": []
+  }
+}
