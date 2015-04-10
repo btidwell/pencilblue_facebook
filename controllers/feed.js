@@ -1,11 +1,9 @@
 module.exports = function FeedControllerModule(pb){
   var util = pb.util;
-  var PluginService = pb.PluginService;
   var OauthService = pb.PluginService.getService("oauthService", "pencilblue_facebook");
   var PostsService = pb.PluginService.getService("postsService", "pencilblue_facebook");
-  var FB = require('fb');
   
-  function FeedController(){};
+  function FeedController(){}
   
   util.inherits(FeedController, pb.BaseController);
   
