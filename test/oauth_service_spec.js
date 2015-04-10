@@ -8,6 +8,7 @@ var FB = require('fb');
 
 describe('When using the OauthService', function(){
   var OauthService;
+  var oauthService;
   var apiSpy;
   var apiStub;
   var apiCredentials;
@@ -21,9 +22,10 @@ describe('When using the OauthService', function(){
         grant_type: 'client_credentials'
       }
       OauthService = OauthServiceModule(pb);
+      oauthService = new OauthService();
       apiStub = sinon.stub(FB, 'api');
       apiStub.onCall(0).yields({access_token: 'mockaccesstoken'});
-      apiSpy = sinon.spy(OauthService, 'callApi');
+      apiSpy = sinon.spy(oauthService, 'callApi');
     });
     
   });
@@ -46,7 +48,7 @@ describe('When using the OauthService', function(){
   });
   
   it('the service should return an access token from the facebook api module', function(end){
-    OauthService.getAccessToken(function(accessToken){
+    oauthService.getAccessToken(function(accessToken){
       expect(accessToken).to.equal('mockaccesstoken');
       var args = apiSpy.getCall(0).args;
       expect(args[0]).to.equal('oauth/access_token');

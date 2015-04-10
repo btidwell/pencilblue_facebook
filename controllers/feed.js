@@ -8,8 +8,10 @@ module.exports = function FeedControllerModule(pb){
   util.inherits(FeedController, pb.BaseController);
   
   FeedController.prototype.getPagePosts = function(cb){
-    OauthService.getAccessToken(function(accessToken){
-      PostsService.getPagePosts(accessToken, cb);
+    var oauthService = new OauthService();
+    var postsService = new PostsService();
+    oauthService.getAccessToken(function(accessToken){
+      postsService.getPagePosts(accessToken, cb);
     });
   };
   

@@ -13,10 +13,11 @@ module.exports = function OauthServiceModule(pb){
     return "oauthService";
   };
   
-  OauthService.getAccessToken = function(cb){
+  OauthService.prototype.getAccessToken = function(cb){
+    var self = this;
     var pluginService = new PluginService();
     pluginService.getSettingsKV('pencilblue_facebook', function(err, settings){
-      OauthService.callApi('oauth/access_token', {
+      self.callApi('oauth/access_token', {
         client_id: settings.app_id,
         client_secret: settings.app_secret,
         grant_type: 'client_credentials'
@@ -24,7 +25,7 @@ module.exports = function OauthServiceModule(pb){
     }); 
   };
   
-  OauthService.callApi = function(route, params, cb){
+  OauthService.prototype.callApi = function(route, params, cb){
     FB.api(route, params, function (res) {
       if(!res || res.error) {
         console.log(!res ? 'error occurred' : res.error);

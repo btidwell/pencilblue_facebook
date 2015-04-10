@@ -4,7 +4,7 @@ OauthService.getName = function(){
     return "oauthService";
 };
 
-OauthService.getAccessToken = function(cb){
+OauthService.prototype.getAccessToken = function(cb){
   cb('mockaccesstoken');
 };
 

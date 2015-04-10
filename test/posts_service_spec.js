@@ -8,6 +8,7 @@ var FB = require('fb');
 
 describe('When using the PostsService', function(){
   var PostsService;
+  var postsService;
   var apiSpy;
   var apiStub;
   var apiCredentials;
@@ -23,11 +24,11 @@ describe('When using the PostsService', function(){
         grant_type: 'client_credentials'
       }
       PostsService = PostsServiceModule(pb);
+      postsService = new PostsService();
       apiStub = sinon.stub(FB, 'api');
       apiStub.onCall(0).yields(expectedJSON);
-      apiSpy = sinon.spy(PostsService, 'callApi');
+      apiSpy = sinon.spy(postsService, 'callApi');
     });
-    
   });
   
   after(function(){
@@ -49,7 +50,7 @@ describe('When using the PostsService', function(){
   
   it('the service should return an access token from the facebook api module', function(end){
     var accessToken = 'mockaccesstoken';
-    PostsService.getPagePosts(accessToken, function(content){
+    postsService.getPagePosts(accessToken, function(content){
       expect(content.status).to.equal(200);
       expect(content.content).to.equal(JSON.stringify(expectedJSON));
       var args = apiSpy.getCall(0).args;

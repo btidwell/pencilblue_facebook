@@ -10,12 +10,14 @@ describe('When using the Feed Controller', function(){
   var pb;
   var FeedController;
   var expectedJSON;
+  var oauthService = new OauthService();
+  var postsService = new PostsService();
   before(function(){
     pb = mockService.getMockPB();
     FeedController = FeedControllerModule(pb);
     expectedJSON = '{data:[{id:"mockid",message:"Mock Message", created_time:"2015-04-09T16:00:04+0000"}]}';
-    var oauthStub = sinon.stub(OauthService, 'getAccessToken');
-    var postsStub = sinon.stub(PostsService, 'getPagePosts');
+    var oauthStub = sinon.stub(oauthService, 'getAccessToken');
+    var postsStub = sinon.stub(postsService, 'getPagePosts');
     oauthStub.onCall(0).yields('mockaccesstoken');
     postsStub.onCall(0).yields(null, expectedJSON);
   });
