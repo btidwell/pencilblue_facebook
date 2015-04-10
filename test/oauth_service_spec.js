@@ -25,6 +25,7 @@ describe('When using the OauthService', function(){
       oauthService = new OauthService();
       apiStub = sinon.stub(FB, 'api');
       apiStub.onCall(0).yields({access_token: 'mockaccesstoken'});
+      apiStub.onCall(1).yields({access_token: '', error: 'mockError'});
       apiSpy = sinon.spy(oauthService, 'callApi');
     });
     
@@ -56,6 +57,13 @@ describe('When using the OauthService', function(){
       expect(args[1].client_secret).to.equal(apiCredentials.client_secret);
       expect(args[1].grant_type).to.equal(apiCredentials.grant_type);
       expect(typeof args[2]).to.equal('function');
+      end();
+    });
+  });
+  
+  it('should log an errorbut return empty token when api bombs', function(end){
+    oauthService.getAccessToken(function(accessToken){
+      expect(accessToken).to.equal('');
       end();
     });
   });

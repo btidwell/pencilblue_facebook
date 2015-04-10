@@ -27,11 +27,13 @@ module.exports = function OauthServiceModule(pb){
   
   OauthService.prototype.callApi = function(route, params, cb){
     FB.api(route, params, function (res) {
+      var accessToken = '';
       if(!res || res.error) {
-        console.log(!res ? 'error occurred' : res.error);
-        throw res.error;
+        pb.log.error(!res ? 'error occurred' : res.error);
       }
-      var accessToken = res.access_token;
+      else{
+        accessToken = res.access_token;
+      }
       FB.setAccessToken(accessToken);
       if(cb){
         cb(accessToken);
