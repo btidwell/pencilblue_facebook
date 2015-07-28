@@ -1,8 +1,8 @@
 module.exports = function PostsServiceModule(pb){
   var FB = require('fb');
   
-  function PostsService(site){
-    this.site = site;
+  function PostsService(options){
+    this.site = options.site ? options.site : '';
   }
   
   PostsService.init = function(cb){

@@ -10,8 +10,8 @@ module.exports = function FeedControllerModule(pb){
     var pluginService = new pb.PluginService(this.site);
     var OauthService = pluginService.getService("oauthService", "pencilblue_facebook", this.site);
     var PostsService = pluginService.getService("postsService", "pencilblue_facebook", this.site);
-    var oauthService = new OauthService(this.site);
-    var postsService = new PostsService(this.site);
+    var oauthService = new OauthService({"site":this.site});
+    var postsService = new PostsService({"site":this.site});
     oauthService.getAccessToken(function(accessToken){
       postsService.getPagePosts(accessToken, cb);
     });

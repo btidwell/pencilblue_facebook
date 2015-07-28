@@ -1,8 +1,8 @@
 module.exports = function OauthServiceModule(pb){
   var FB = require('fb');
   
-  function OauthService(site){
-    this.site = site;
+  function OauthService(options){
+    this.site = options.site ? options.site : '';
   }
   
   OauthService.init = function(cb){
