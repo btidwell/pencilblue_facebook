@@ -1,8 +1,9 @@
 module.exports = function OauthServiceModule(pb){
-  var PluginService = pb.PluginService;
   var FB = require('fb');
   
-  function OauthService(){}
+  function OauthService(site){
+    this.site = site;
+  }
   
   OauthService.init = function(cb){
     pb.log.debug("OauthService: Initialized");
@@ -15,7 +16,7 @@ module.exports = function OauthServiceModule(pb){
   
   OauthService.prototype.getAccessToken = function(cb){
     var self = this;
-    var pluginService = new PluginService();
+    var pluginService = new pb.PluginService(self.site);
     pluginService.getSettingsKV('pencilblue_facebook', function(err, settings){
       self.callApi('oauth/access_token', {
         client_id: settings.app_id,

@@ -1,8 +1,9 @@
 module.exports = function PostsServiceModule(pb){
-  var PluginService = pb.PluginService;
   var FB = require('fb');
   
-  function PostsService(){}
+  function PostsService(site){
+    this.site = site;
+  }
   
   PostsService.init = function(cb){
     pb.log.debug("PostsService: Initialized");
@@ -15,7 +16,7 @@ module.exports = function PostsServiceModule(pb){
   
   PostsService.prototype.getPagePosts = function(accessToken, cb){
     var self = this;
-    var pluginService = new PluginService();
+    var pluginService = new pb.PluginService(self.site);
     pluginService.getSettingsKV('pencilblue_facebook', function(err, settings){
       self.callApi(accessToken, '/v2.3/' + settings.facebook_page_id + '/posts', cb);
     });
