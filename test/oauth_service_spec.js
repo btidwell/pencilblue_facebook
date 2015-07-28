@@ -42,6 +42,7 @@ describe('When using the OauthService', function(){
 
   it('instantiation should take in an options object', function(end){
     var tmpOauthService = new OauthService({'site':'8675309'});
+    expect(tmpOauthService.site).to.equal('8675309');
     end();
   });
 

@@ -42,6 +42,7 @@ describe('When using the PostsService', function(){
 
   it('instantiation should take in an options object', function(end){
     var tmpPostsService = new PostsService({'site':'8675309'});
+    expect(tmpPostsService.site).to.equal('8675309');
     end();
   });
   
