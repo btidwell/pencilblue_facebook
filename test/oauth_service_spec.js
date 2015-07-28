@@ -39,7 +39,12 @@ describe('When using the OauthService', function(){
     expect(OauthService.getName()).to.equal('oauthService');
     end();
   });
-  
+
+  it('instantiation should take in an options object', function(end){
+    var tmpOauthService = new OauthService({'site':'8675309'});
+    end();
+  });
+
   it('service should contain an init function that yields a null err and a result of true', function(end){
     OauthService.init(function(err, result){
       expect(err).to.equal(null);
