@@ -39,6 +39,12 @@ describe('When using the PostsService', function(){
     expect(PostsService.getName()).to.equal('postsService');
     end();
   });
+
+  it('instantiation should take in an options object', function(end){
+    var tmpPostsService = new PostsService({'site':'8675309'});
+    expect(tmpPostsService.site).to.equal('8675309');
+    end();
+  });
   
   it('service should contain an init function that yields a null err and a result of true', function(end){
     PostsService.init(function(err, result){
