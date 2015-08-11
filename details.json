@@ -2,7 +2,7 @@
   "uid": "pencilblue_facebook",
   "name": "Facebook Plugin",
   "description": "Facebook feed plugin for Pencilblue",
-  "pb_version": "0.5.x",
+  "pb_version": "0.4.x",
   "version": "0.1.0",
   "author": {
     "name": "CareerBuilder CMS Team",
