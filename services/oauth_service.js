@@ -15,8 +15,7 @@
  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-module.exports = function OauthServiceModule(pb){
-  var PluginService = pb.PluginService;
+module.exports = function OauthServiceModule(pb) {
   var FB = require('fb');
   
   function OauthService(){}
