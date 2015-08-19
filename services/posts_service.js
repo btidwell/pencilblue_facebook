@@ -20,7 +20,7 @@ module.exports = function PostsServiceModule(pb){
   
   PostsService.prototype.getPagePosts = function(accessToken, cb){
     var self = this;
-    var pluginService = new pb.PluginService(self.site);
+    var pluginService = new pb.PluginService({site: self.site});
     pluginService.getSettingsKV('pencilblue_facebook', function(err, settings){
       self.callApi(accessToken, '/v2.3/' + settings.facebook_page_id + '/posts', cb);
     });
