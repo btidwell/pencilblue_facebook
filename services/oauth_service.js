@@ -15,16 +15,11 @@
  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-module.exports = function OauthServiceModule(pb) {
+module.exports = function OauthServiceModule(pb){
+  var PluginService = pb.PluginService;
   var FB = require('fb');
-
-  function OauthService(options) {
-    if (options){
-      this.site = options.site ? options.site : '';
-    }else {
-      this.site = '';
-    }
-  }
+  
+  function OauthService(){}
   
   OauthService.init = function(cb){
     pb.log.debug("OauthService: Initialized");
@@ -37,7 +32,7 @@ module.exports = function OauthServiceModule(pb) {
   
   OauthService.prototype.getAccessToken = function(cb){
     var self = this;
-    var pluginService = new pb.PluginService(self.site);
+    var pluginService = new PluginService();
     pluginService.getSettingsKV('pencilblue_facebook', function(err, settings){
       self.callApi('oauth/access_token', {
         client_id: settings.app_id,

@@ -15,7 +15,6 @@
  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
 var sinon = require('sinon');
 var chai = require('chai');
 var expect = chai.expect;
