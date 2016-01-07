@@ -7,7 +7,6 @@ module.exports = function FeedControllerModule(pb){
   util.inherits(FeedController, pb.BaseController);
 
   FeedController.prototype.getPagePosts = function(cb){
-    var pluginService = new pb.PluginService(this.site);
     var OauthService = pb.PluginService.getService("oauthService", "pencilblue_facebook", this.site);
     var PostsService = pb.PluginService.getService("postsService", "pencilblue_facebook", this.site);
     var oauthService = new OauthService({"site":this.site});
