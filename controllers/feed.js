@@ -23,7 +23,8 @@ module.exports = function FeedControllerModule(pb){
         path: '/action/facebook/posts',
         auth_required: false,
         content_type: 'application/json',
-        handler: 'getPagePosts'
+        handler: 'getPagePosts',
+        localization: true
       }
     ];
     cb(null, routes);
