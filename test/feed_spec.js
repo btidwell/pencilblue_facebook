@@ -38,7 +38,7 @@ describe('When using the Feed Controller', function(){
     oauthStub.onCall(0).yields('mockaccesstoken');
     postsStub.onCall(0).yields(null, expectedJSON);
   });
-  
+
   it('We should expect a JSON response from the request handler getPosts', function(done){
     var feedController = new FeedController();
     feedController.getPagePosts(function(err, result){
@@ -46,7 +46,7 @@ describe('When using the Feed Controller', function(){
       done();
     });
   });
-  
+
   it('We should expect a public GET route for getPosts handler with a content_type of application/json', function(done){
     FeedController.getRoutes(function(err, routes){
       expect(routes.length).to.equal(1);
@@ -55,6 +55,7 @@ describe('When using the Feed Controller', function(){
       expect(route.path).to.equal('/action/facebook/posts');
       expect(route.auth_required).to.equal(false);
       expect(route.content_type).to.equal('application/json');
+      expect(route.localization).to.equal(true);
       expect(route.handler).to.equal('getPagePosts');
       done();
     });

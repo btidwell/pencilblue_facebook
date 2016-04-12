@@ -14,34 +14,38 @@
  You should have received a copy of the GNU General Public License
  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
-module.exports = function OauthServiceModule(pb){
-  var PluginService = pb.PluginService;
+module.exports = function OauthServiceModule(pb) {
   var FB = require('fb');
-  
-  function OauthService(){}
-  
+
+  function OauthService(options) {
+    if (options){
+      this.site = options.site ? options.site : '';
+    }else {
+      this.site = '';
+    }
+  }
+
   OauthService.init = function(cb){
     pb.log.debug("OauthService: Initialized");
     cb(null, true);
   };
-  
+
   OauthService.getName = function(){
     return "oauthService";
   };
-  
+
   OauthService.prototype.getAccessToken = function(cb){
     var self = this;
-    var pluginService = new PluginService();
+    var pluginService = new pb.PluginService({site: self.site});
     pluginService.getSettingsKV('pencilblue_facebook', function(err, settings){
       self.callApi('oauth/access_token', {
         client_id: settings.app_id,
         client_secret: settings.app_secret,
         grant_type: 'client_credentials'
       }, cb);
-    }); 
+    });
   };
-  
+
   OauthService.prototype.callApi = function(route, params, cb){
     FB.api(route, params, function (res) {
       var accessToken = '';
@@ -57,6 +61,6 @@ module.exports = function OauthServiceModule(pb){
       }
     });
   };
-  
+
   return OauthService;
 };
