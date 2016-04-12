@@ -27,7 +27,7 @@ PluginService.prototype.getSettingsKV = function(pluginName, cb){
   });
 };
 
-PluginService.prototype.getService = function(serviceName, pluginName){
+PluginService.getService = function(serviceName, pluginName){
   if(serviceName === OauthService.getName()){
     return OauthService;
   }
