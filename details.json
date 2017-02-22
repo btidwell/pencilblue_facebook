@@ -51,7 +51,7 @@
     "path": "facebook.js"
   },
   "dependencies": {
-    "fb": "0.7.0"
+    "fb": "1.0.2"
   },
   "theme": {
     "settings": []
