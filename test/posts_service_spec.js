@@ -44,14 +44,14 @@ describe('When using the PostsService', function(){
       postsService = new PostsService();
       apiStub = sinon.stub(FB, 'api');
       apiStub.onCall(0).yields(expectedJSON);
-      apiSpy = sinon.spy(postsService, 'callApi');
+      apiSpy = sinon.spy(postsService, 'getPagePosts');
     });
   });
-  
+
   after(function(){
     FB.api.restore();
   });
-  
+
   it('getName should return "postsService"', function(end){
     expect(PostsService.getName()).to.equal('postsService');
     end();
@@ -62,7 +62,7 @@ describe('When using the PostsService', function(){
     expect(tmpPostsService.site).to.equal('8675309');
     end();
   });
-  
+
   it('service should contain an init function that yields a null err and a result of true', function(end){
     PostsService.init(function(err, result){
       expect(err).to.equal(null);
@@ -70,18 +70,17 @@ describe('When using the PostsService', function(){
       end();
     });
   });
-  
+
   it('the service should return an access token from the facebook api module', function(end){
     var accessToken = 'mockaccesstoken';
-    postsService.getPagePosts(accessToken, function(content){
-      expect(content.status).to.equal(200);
+    postsService.getPagePosts(accessToken, {'facebook_page_id': 'mockpageid'}, function(content){
       expect(content.content).to.equal(JSON.stringify(expectedJSON));
-      var args = apiSpy.getCall(0).args;
-      expect(args[0]).to.equal(accessToken);
-      expect(args[1]).to.equal('/v2.3/mockpageid/posts');
+      var args = apiStub.getCall(0).args;
+      expect(args[0]).to.equal('/v2.3/mockpageid/posts');
+      expect(args[1]).to.deep.equal({access_token: accessToken});
       expect(typeof args[2]).to.equal('function');
       end();
     });
   });
-  
+
 });

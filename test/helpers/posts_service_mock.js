@@ -21,7 +21,7 @@ PostsService.getName = function(){
   return "postsService";
 };
 
-PostsService.prototype.getPagePosts = function(accessToken, cb){
+PostsService.prototype.getPagePosts = function(accessToken, settings, cb){
   cb(null, '{data:[{id:"mockid",message:"Mock Message", created_time:"2015-04-09T16:00:04+0000"}]}');
 };
 

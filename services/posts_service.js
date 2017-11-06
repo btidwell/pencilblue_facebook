@@ -14,43 +14,29 @@
  You should have received a copy of the GNU General Public License
  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+const FB = require('fb');
 
 module.exports = function PostsServiceModule(pb){
-  var FB = require('fb');
-  
-  function PostsService(options) {
-    if (options) {
-      this.site = options.site ? options.site : '';
-    } else {
-      this.site = '';
+
+    class PostsService {
+        constructor(context = {}) {
+            this.site = context.site || '';
+        }
+        static init(cb) {
+            cb(null, true);
+        }
+        static getName () {
+            return 'postsService';
+        }
+
+        getPagePosts(accessToken, settings, cb) {
+            let route = `/v2.3/${settings.facebook_page_id}/posts`;
+            FB.api(route, {'access_token': accessToken}, (response) => {
+                response.siteLink = `https://facebook.com/${settings.facebook_page_id}`;
+                cb({content: JSON.stringify(response)});
+            });
+        }
     }
-  }
-  
-  PostsService.init = function(cb){
-    pb.log.debug("PostsService: Initialized");
-    cb(null, true);
-  };
-  
-  PostsService.getName = function(){
-    return "postsService";
-  };
-  
-  PostsService.prototype.getPagePosts = function(accessToken, cb){
-    var self = this;
-    var pluginService = new pb.PluginService({site: self.site});
-    pluginService.getSettingsKV('pencilblue_facebook', function(err, settings){
-      self.callApi(accessToken, '/v2.3/' + settings.facebook_page_id + '/posts', cb);
-    });
-  };
-  
-  PostsService.prototype.callApi = function(accessToken, route, cb){
-    FB.api(route, {"access_token":accessToken},function(response){
-      cb({
-        status:200,
-        content:JSON.stringify(response)
-      });
-    });
-  };
-  
+
   return PostsService;
 };
