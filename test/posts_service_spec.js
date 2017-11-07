@@ -76,7 +76,7 @@ describe('When using the PostsService', function(){
     postsService.getPagePosts(accessToken, {'facebook_page_id': 'mockpageid'}, function(content){
       expect(content.content).to.equal(JSON.stringify(expectedJSON));
       var args = apiStub.getCall(0).args;
-      expect(args[0]).to.equal('/v2.3/mockpageid/posts');
+      expect(args[0]).to.equal('/v2.10/mockpageid/posts');
       expect(args[1]).to.deep.equal({access_token: accessToken});
       expect(typeof args[2]).to.equal('function');
       end();

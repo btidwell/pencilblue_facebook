@@ -30,7 +30,7 @@ module.exports = function PostsServiceModule(pb){
         }
 
         getPagePosts(accessToken, settings, cb) {
-            let route = `/v2.3/${settings.facebook_page_id}/posts`;
+            let route = `/v2.10/${settings.facebook_page_id}/posts`;
             FB.api(route, {'access_token': accessToken}, (response) => {
                 response.siteLink = `https://facebook.com/${settings.facebook_page_id}`;
                 cb({content: JSON.stringify(response)});

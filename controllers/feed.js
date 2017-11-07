@@ -22,7 +22,7 @@ module.exports = function FeedControllerModule(pb) {
             const oauthService = new (pb.PluginService.getService('oauthService', 'pencilblue_facebook', this.site))({site: this.site});
             const postService = new (pb.PluginService.getService('postsService', 'pencilblue_facebook', this.site))({site: this.site});
             let pluginService = new pb.PluginService({site: this.site});
-            pluginService.getSettingsKV('pencilblue_facebook', (err, settings) => {
+            pluginService.getSettingsKV('pencilblue_facebook', (err, settings = {}) => {
                 oauthService.getAccessToken(settings, (accessToken) => {
                     postService.getPagePosts(accessToken, settings, cb);
                 });
