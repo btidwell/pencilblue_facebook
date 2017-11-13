@@ -15,6 +15,13 @@
  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 const FB = require('fb');
+const Promise = require('bluebird')
+FB.options({
+    version: 'v2.11',
+    Promise
+})
+
+const fbUrl = 'https://facebook.com/'
 
 module.exports = function PostsServiceModule(pb){
 
@@ -30,11 +37,18 @@ module.exports = function PostsServiceModule(pb){
         }
 
         getPagePosts(accessToken, settings, cb) {
-            let route = `/v2.10/${settings.facebook_page_id}/posts`;
-            FB.api(route, {'access_token': accessToken}, (response) => {
-                response.siteLink = `https://facebook.com/${settings.facebook_page_id}`;
-                cb({content: JSON.stringify(response)});
-            });
+            const page = `${settings.facebook_page_id}/`
+            const posts = `${page}posts/`
+            FB.api(posts, { access_token: accessToken }).then(({data: [post]}) => {
+                const siteLink = `${fbUrl}${page}`
+                post.url = `${fbUrl}${post.id}`
+                return {
+                    siteLink,
+                    post
+                }
+            })
+            .then(content => ({content}))
+            .then(cb, cb)
         }
     }
 

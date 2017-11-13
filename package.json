@@ -4,7 +4,7 @@
         "url": "http://github.com/btidwell/pencilblue_facebook.git"
     },
     "dependencies": {
-        "fb": "1.0.2"
+        "fb": "^2.0.0"
     },
     "devDependencies": {
         "chai": "^3.5.0",
