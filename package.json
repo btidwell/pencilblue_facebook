@@ -4,6 +4,7 @@
         "url": "http://github.com/btidwell/pencilblue_facebook.git"
     },
     "dependencies": {
+        "bluebird": "^3.5.1",
         "fb": "^2.0.0"
     },
     "devDependencies": {
