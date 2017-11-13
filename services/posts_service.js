@@ -39,7 +39,7 @@ module.exports = function PostsServiceModule(pb){
         getPagePosts(accessToken, settings, cb) {
             const page = `${settings.facebook_page_id}/`
             const posts = `${page}posts/`
-            FB.api(posts, { access_token: accessToken }).then(({data: [post]}) => {
+            return FB.api(posts, { access_token: accessToken }).then(({data: [post]}) => {
                 const siteLink = `${fbUrl}${page}`
                 post.url = `${fbUrl}${post.id}`
                 return {

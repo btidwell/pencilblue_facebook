@@ -16,6 +16,7 @@
  */
 
 var sinon = require('sinon');
+require('sinon-as-promised')
 var chai = require('chai');
 var expect = chai.expect;
 var mockService = require('../test/helpers/pb_mock_service');
@@ -43,7 +44,7 @@ describe('When using the PostsService', function(){
       PostsService = PostsServiceModule(pb);
       postsService = new PostsService();
       apiStub = sinon.stub(FB, 'api');
-      apiStub.onCall(0).yields(expectedJSON);
+      apiStub.onCall(0).resolves(expectedJSON);
       apiSpy = sinon.spy(postsService, 'getPagePosts');
     });
   });
@@ -71,16 +72,16 @@ describe('When using the PostsService', function(){
     });
   });
 
-  it('the service should return an access token from the facebook api module', function(end){
+  it('the service should return an access token from the facebook api module', async function(){
     var accessToken = 'mockaccesstoken';
-    postsService.getPagePosts(accessToken, {'facebook_page_id': 'mockpageid'}, function(content){
-      expect(content.content).to.equal(JSON.stringify(expectedJSON));
-      var args = apiStub.getCall(0).args;
-      expect(args[0]).to.equal('/v2.10/mockpageid/posts');
-      expect(args[1]).to.deep.equal({access_token: accessToken});
-      expect(typeof args[2]).to.equal('function');
-      end();
-    });
+    let { content } = await postsService.getPagePosts(accessToken, {'facebook_page_id': 'mockpageid'})
+    expect(content).to.deep.equal({
+        siteLink: 'https://facebook.com/mockpageid/',
+        post: { ...expectedJSON.data[0], url: 'https://facebook.com/mockid' }
+    })
+    var args = apiStub.getCall(0).args;
+    expect(args[0]).to.equal('mockpageid/posts/');
+    expect(args[1]).to.deep.equal({access_token: accessToken});
   });
 
 });
