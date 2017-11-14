@@ -43,26 +43,26 @@ describe('When using the OauthService', function(){
       apiStub = sinon.stub(FB, 'api');
       apiStub.onCall(0).yields({access_token: 'mockaccesstoken'});
       apiStub.onCall(1).yields({access_token: '', error: 'mockError'});
-      apiSpy = sinon.spy(oauthService, 'callApi');
+      apiSpy = sinon.spy(oauthService, 'getAccessToken');
     });
-    
+
   });
-  
+
   after(function(){
     FB.api.restore();
   });
-  
+
   it('getName should return "oauthService"', function(end){
     expect(OauthService.getName()).to.equal('oauthService');
     end();
   });
-  
+
   it('instantiation should take in an options object', function(end){
     var tmpOauthService = new OauthService({'site':'8675309'});
     expect(tmpOauthService.site).to.equal('8675309');
     end();
   });
- 
+
   it('service should contain an init function that yields a null err and a result of true', function(end){
     OauthService.init(function(err, result){
       expect(err).to.equal(null);
@@ -70,11 +70,15 @@ describe('When using the OauthService', function(){
       end();
     });
   });
-  
+
   it('the service should return an access token from the facebook api module', function(end){
-    oauthService.getAccessToken(function(accessToken){
+      let settings = {
+          app_id: 'mockappid',
+          app_secret: 'mockappsecret'
+      };
+      oauthService.getAccessToken(settings, function(accessToken){
       expect(accessToken).to.equal('mockaccesstoken');
-      var args = apiSpy.getCall(0).args;
+      var args = apiStub.getCall(0).args;
       expect(args[0]).to.equal('oauth/access_token');
       expect(args[1].client_id).to.equal(apiCredentials.client_id);
       expect(args[1].client_secret).to.equal(apiCredentials.client_secret);
@@ -83,12 +87,12 @@ describe('When using the OauthService', function(){
       end();
     });
   });
-  
+
   it('should log an errorbut return empty token when api bombs', function(end){
-    oauthService.getAccessToken(function(accessToken){
+    oauthService.getAccessToken({}, function(accessToken){
       expect(accessToken).to.equal('');
       end();
     });
   });
-  
+
 });

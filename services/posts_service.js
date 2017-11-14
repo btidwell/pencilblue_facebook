@@ -14,43 +14,43 @@
  You should have received a copy of the GNU General Public License
  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+const FB = require('fb');
+const Promise = require('bluebird')
+FB.options({
+    version: 'v2.11',
+    Promise
+})
+
+const fbUrl = 'https://facebook.com/'
 
 module.exports = function PostsServiceModule(pb){
-  var FB = require('fb');
-  
-  function PostsService(options) {
-    if (options) {
-      this.site = options.site ? options.site : '';
-    } else {
-      this.site = '';
+
+    class PostsService {
+        constructor(context = {}) {
+            this.site = context.site || '';
+        }
+        static init(cb) {
+            cb(null, true);
+        }
+        static getName () {
+            return 'postsService';
+        }
+
+        getPagePosts(accessToken, settings, cb) {
+            const page = `${settings.facebook_page_id}/`
+            const posts = `${page}posts/`
+            return FB.api(posts, { access_token: accessToken }).then(({data: [post]}) => {
+                const siteLink = `${fbUrl}${page}`
+                post.url = `${fbUrl}${post.id}`
+                return {
+                    siteLink,
+                    post
+                }
+            })
+            .then(content => ({content}))
+            .then(cb, cb)
+        }
     }
-  }
-  
-  PostsService.init = function(cb){
-    pb.log.debug("PostsService: Initialized");
-    cb(null, true);
-  };
-  
-  PostsService.getName = function(){
-    return "postsService";
-  };
-  
-  PostsService.prototype.getPagePosts = function(accessToken, cb){
-    var self = this;
-    var pluginService = new pb.PluginService({site: self.site});
-    pluginService.getSettingsKV('pencilblue_facebook', function(err, settings){
-      self.callApi(accessToken, '/v2.3/' + settings.facebook_page_id + '/posts', cb);
-    });
-  };
-  
-  PostsService.prototype.callApi = function(accessToken, route, cb){
-    FB.api(route, {"access_token":accessToken},function(response){
-      cb({
-        status:200,
-        content:JSON.stringify(response)
-      });
-    });
-  };
-  
+
   return PostsService;
 };

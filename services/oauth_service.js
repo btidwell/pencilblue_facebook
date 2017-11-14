@@ -14,53 +14,41 @@
  You should have received a copy of the GNU General Public License
  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+const FB = require('fb');
 module.exports = function OauthServiceModule(pb) {
-  var FB = require('fb');
 
-  function OauthService(options) {
-    if (options){
-      this.site = options.site ? options.site : '';
-    }else {
-      this.site = '';
+    class OauthService {
+        constructor(context = {}) {
+            this.site = context.site || '';
+        }
+
+        static init(cb) {
+            cb(null, true);
+        }
+
+        static getName() {
+            return 'oauthService';
+        }
+
+        getAccessToken(settings, cb) {
+            let route = 'oauth/access_token';
+            let params = {
+                client_id: settings.app_id,
+                client_secret: settings.app_secret,
+                grant_type: 'client_credentials'
+            };
+
+            FB.api(route, params, (response) => {
+                if (!response || response.error) {
+                    let message = !response ? 'Did not get an response body while trying to get FB Access Token' : `FB Access Token failure: ${response.error}`;
+                    pb.log.error(message);
+                    response = {};
+                }
+                FB.setAccessToken(response.access_token || '');
+                cb(response.access_token || '');
+            });
+        }
     }
-  }
 
-  OauthService.init = function(cb){
-    pb.log.debug("OauthService: Initialized");
-    cb(null, true);
-  };
-
-  OauthService.getName = function(){
-    return "oauthService";
-  };
-
-  OauthService.prototype.getAccessToken = function(cb){
-    var self = this;
-    var pluginService = new pb.PluginService({site: self.site});
-    pluginService.getSettingsKV('pencilblue_facebook', function(err, settings){
-      self.callApi('oauth/access_token', {
-        client_id: settings.app_id,
-        client_secret: settings.app_secret,
-        grant_type: 'client_credentials'
-      }, cb);
-    });
-  };
-
-  OauthService.prototype.callApi = function(route, params, cb){
-    FB.api(route, params, function (res) {
-      var accessToken = '';
-      if(!res || res.error) {
-        pb.log.error(!res ? 'error occurred' : res.error);
-      }
-      else{
-        accessToken = res.access_token;
-      }
-      FB.setAccessToken(accessToken);
-      if(cb){
-        cb(accessToken);
-      }
-    });
-  };
-
-  return OauthService;
+    return OauthService;
 };

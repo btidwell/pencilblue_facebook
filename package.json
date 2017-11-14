@@ -4,14 +4,16 @@
         "url": "http://github.com/btidwell/pencilblue_facebook.git"
     },
     "dependencies": {
-        "fb": "1.0.2"
+        "bluebird": "^3.5.1",
+        "fb": "^2.0.0"
     },
     "devDependencies": {
         "chai": "^3.5.0",
-        "mocha": "^2.4.5",
-        "sinon": "^1.17.3",
         "istanbul": "^0.4.2",
-        "mocha-istanbul": "^0.2.0"
+        "mocha": "^2.4.5",
+        "mocha-istanbul": "^0.2.0",
+        "sinon": "^1.17.3",
+        "sinon-as-promised": "^4.0.3"
     },
     "scripts": {
         "test": "./node_modules/.bin/mocha --recursive --reporter nyan",
